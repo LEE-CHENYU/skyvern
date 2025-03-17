@@ -476,7 +476,7 @@ function convertToNode(
 
   // Add default case to handle any unmatched block types
   throw new Error(
-    `Unsupported block type: ${(block as Record<string, string>).block_type}`,
+    `Unsupported block type: ${(block as unknown as { block_type: string }).block_type}`,
   );
 }
 
@@ -893,12 +893,12 @@ function createNode(
         return {
           ...identifiers,
           ...common,
-          type: "task" as unknown, // Use task as fallback
+          type: "task", // Use task as fallback without casting to unknown
           data: {
             ...taskNodeDefaultData,
             label: `${label} (Fallback)`,
           },
-        };
+        } as WorkflowBlockNode;
     }
   } catch (error) {
     console.error("Error creating node:", error, "for type:", nodeType);
@@ -906,12 +906,12 @@ function createNode(
     return {
       ...identifiers,
       ...common,
-      type: "task" as unknown,
+      type: "task", // Use task without casting to unknown
       data: {
         ...taskNodeDefaultData,
         label: `${label} (Error)`,
       },
-    };
+    } as WorkflowBlockNode;
   }
 }
 
