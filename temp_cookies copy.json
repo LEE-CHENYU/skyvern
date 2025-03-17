@@ -7,7 +7,7 @@
     "expires": 1772760264.497254,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "uid",
@@ -17,7 +17,7 @@
     "expires": 1772761533.283455,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "Yjs_logindata",
@@ -27,7 +27,7 @@
     "expires": 1744769279,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "Yjs_Partner",
@@ -47,7 +47,7 @@
     "expires": 1771630895,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "Hm_lvt_a5e61e07eeae649be5a862f42c636bc7",
@@ -57,7 +57,7 @@
     "expires": 1771630896,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "Hm_lvt_6465b7e5e0e872fc416968a53d4fb422",
@@ -67,7 +67,7 @@
     "expires": 1773764978,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "HMACCOUNT",
@@ -76,7 +76,7 @@
     "path": "/",
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "sensorsdata2015jssdkcross",
@@ -86,7 +86,7 @@
     "expires": 1776788977.242231,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "Yjs_UAccountId",
@@ -125,7 +125,7 @@
     "path": "/",
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "Hm_lpvt_6465b7e5e0e872fc416968a53d4fb422",
@@ -134,7 +134,7 @@
     "path": "/",
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "ssxmod_itna",
@@ -144,7 +144,7 @@
     "expires": 1757729309,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "ssxmod_itna2",
@@ -154,6 +154,6 @@
     "expires": 1757729309,
     "sameSite": "None",
     "httpOnly": false,
-    "secure": true
+    "secure": false
   }
 ]

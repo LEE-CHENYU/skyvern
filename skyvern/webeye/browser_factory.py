@@ -346,11 +346,19 @@ async def _create_headless_chromium(
                 cookies_json = json.load(f)
             
             if cookies_json and len(cookies_json) > 0:
+                # Before adding cookies
+                LOG.info(f"About to add {len(cookies_json)} cookies:")
+                for i, cookie in enumerate(cookies_json):
+                    LOG.info(f"Cookie #{i+1}: {cookie['name']}={cookie.get('value', '')} (domain={cookie.get('domain', '')}, sameSite={cookie.get('sameSite', 'not specified')})")
+
+                # Add cookies
                 await browser_context.add_cookies(cookies_json)
-                
-                # Log the loaded cookies
+
+                # After adding cookies
                 current_cookies = await browser_context.cookies()
-                LOG.info(f"Cookies loaded from file: {json.dumps(current_cookies, indent=2)}")
+                LOG.info(f"Successfully added {len(current_cookies)} cookies:")
+                for i, cookie in enumerate(current_cookies):
+                    LOG.info(f"Cookie #{i+1}: {cookie['name']}={cookie.get('value', '')} (domain={cookie.get('domain', '')}, sameSite={cookie.get('sameSite', 'not specified')})")
         else:
             LOG.info(f"Cookies file not found: {cookies_file}")
     except Exception as e:
