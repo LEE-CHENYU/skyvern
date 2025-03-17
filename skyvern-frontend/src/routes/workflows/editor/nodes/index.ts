@@ -39,6 +39,8 @@ import { Taskv2Node } from "./Taskv2Node/types";
 import { Taskv2Node as Taskv2NodeComponent } from "./Taskv2Node/Taskv2Node";
 import { URLNode } from "./URLNode/types";
 import { URLNode as URLNodeComponent } from "./URLNode/URLNode";
+import { CookieNavNode } from "./CookieNavNode/types";
+import { CookieNavNodeComponent } from "./CookieNavNode/CookieNavNode";
 
 export type UtilityNode = StartNode | NodeAdderNode;
 
@@ -60,7 +62,8 @@ export type WorkflowBlockNode =
   | FileDownloadNode
   | PDFParserNode
   | Taskv2Node
-  | URLNode;
+  | URLNode
+  | CookieNavNode;
 
 export function isUtilityNode(node: AppNode): node is UtilityNode {
   return node.type === "nodeAdder" || node.type === "start";
@@ -93,4 +96,5 @@ export const nodeTypes = {
   pdfParser: memo(PDFParserNodeComponent),
   taskv2: memo(Taskv2NodeComponent),
   url: memo(URLNodeComponent),
+  cookie_nav: memo(CookieNavNodeComponent),
 } as const;

@@ -167,23 +167,24 @@ export type ActionBlockYAML = BlockYAMLBase & {
   cache_actions: boolean;
 };
 
-export type NavigationBlockYAML = BlockYAMLBase & {
+export interface NavigationBlockYAML extends BlockYAMLBase {
   block_type: "navigation";
   url: string | null;
-  title?: string;
+  title: string;
   navigation_goal: string | null;
   error_code_mapping: Record<string, string> | null;
-  max_retries?: number;
-  max_steps_per_run?: number | null;
-  parameter_keys?: Array<string> | null;
-  complete_on_download?: boolean;
-  download_suffix?: string | null;
-  totp_verification_url?: string | null;
-  totp_identifier?: string | null;
-  cache_actions: boolean;
+  max_retries: number | null;
+  max_steps_per_run: number | null;
+  complete_on_download: boolean | null;
+  download_suffix: string | null;
+  parameter_keys: string[] | null;
+  totp_identifier: string | null;
+  totp_verification_url: string | null;
+  cache_actions: boolean | null;
   complete_criterion: string | null;
   terminate_criterion: string | null;
-};
+  cookies?: Record<string, string> | null;
+}
 
 export type ExtractionBlockYAML = BlockYAMLBase & {
   block_type: "extraction";

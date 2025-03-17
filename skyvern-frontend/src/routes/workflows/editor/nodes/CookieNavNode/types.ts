@@ -1,7 +1,7 @@
 import type { Node } from "@xyflow/react";
 import { NodeBaseData } from "../types";
 
-export type NavigationNodeData = NodeBaseData & {
+export type CookieNavNodeData = NodeBaseData & {
   url: string;
   navigationGoal: string;
   errorCodeMapping: string;
@@ -15,31 +15,31 @@ export type NavigationNodeData = NodeBaseData & {
   totpVerificationUrl: string | null;
   totpIdentifier: string | null;
   cacheActions: boolean;
-  cookies: Record<string, string>;
+  cookies: string; // JSON string containing cookie data
 };
 
-export type NavigationNode = Node<NavigationNodeData, "navigation">;
+export type CookieNavNode = Node<CookieNavNodeData, "cookie_nav">;
 
-export const navigationNodeDefaultData: NavigationNodeData = {
+export const cookieNavNodeDefaultData: CookieNavNodeData = {
   label: "",
   url: "",
   navigationGoal: "",
-  errorCodeMapping: "{}",
-  allowDownloads: false,
-  downloadSuffix: null,
-  maxRetries: null,
-  maxStepsOverride: null,
-  parameterKeys: [],
-  totpIdentifier: null,
-  totpVerificationUrl: null,
-  cacheActions: false,
   completeCriterion: "",
   terminateCriterion: "",
-  cookies: {},
-  continueOnFailure: false,
+  errorCodeMapping: "null",
+  maxRetries: null,
+  maxStepsOverride: null,
+  allowDownloads: false,
+  downloadSuffix: null,
   editable: true,
+  parameterKeys: [],
+  totpVerificationUrl: null,
+  totpIdentifier: null,
+  continueOnFailure: false,
+  cacheActions: false,
+  cookies: "[]", // Default empty array of cookies
 } as const;
 
-export function isNavigationNode(node: Node): node is NavigationNode {
-  return node.type === "navigation";
+export function isCookieNavNode(node: Node): node is CookieNavNode {
+  return node.type === "cookie_nav";
 }

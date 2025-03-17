@@ -173,7 +173,8 @@ export type WorkflowBlock =
   | FileDownloadBlock
   | PDFParserBlock
   | Taskv2Block
-  | URLBlock;
+  | URLBlock
+  | CookieNavBlock;
 
 export const WorkflowBlockTypes = {
   Task: "task",
@@ -194,6 +195,7 @@ export const WorkflowBlockTypes = {
   PDFParser: "pdf_parser",
   Taskv2: "task_v2",
   URL: "goto_url",
+  CookieNav: "cookie_nav",
 } as const;
 
 export function isTaskVariantBlock(item: {
@@ -206,7 +208,8 @@ export function isTaskVariantBlock(item: {
     item.block_type === "extraction" ||
     item.block_type === "validation" ||
     item.block_type === "login" ||
-    item.block_type === "file_download"
+    item.block_type === "file_download" ||
+    item.block_type === "cookie_nav"
   );
 }
 
@@ -351,6 +354,7 @@ export type NavigationBlock = WorkflowBlockBase & {
   cache_actions: boolean;
   complete_criterion: string | null;
   terminate_criterion: string | null;
+  cookies?: Record<string, string> | null;
 };
 
 export type ExtractionBlock = WorkflowBlockBase & {
@@ -410,6 +414,25 @@ export type PDFParserBlock = WorkflowBlockBase & {
 export type URLBlock = WorkflowBlockBase & {
   block_type: "goto_url";
   url: string;
+};
+
+export type CookieNavBlock = WorkflowBlockBase & {
+  block_type: "cookie_nav";
+  url: string | null;
+  title: string;
+  navigation_goal: string | null;
+  error_code_mapping: Record<string, string> | null;
+  max_retries?: number;
+  max_steps_per_run?: number | null;
+  parameters: Array<WorkflowParameter>;
+  complete_on_download?: boolean;
+  download_suffix?: string | null;
+  totp_verification_url?: string | null;
+  totp_identifier?: string | null;
+  cache_actions: boolean;
+  complete_criterion: string | null;
+  terminate_criterion: string | null;
+  cookies: string; // JSON string containing cookie data
 };
 
 export type WorkflowDefinition = {

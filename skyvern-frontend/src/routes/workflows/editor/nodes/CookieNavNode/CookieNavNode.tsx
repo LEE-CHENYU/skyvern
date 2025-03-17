@@ -30,13 +30,13 @@ import { EditableNodeTitle } from "../components/EditableNodeTitle";
 import { NodeActionMenu } from "../NodeActionMenu";
 import { errorMappingExampleValue } from "../types";
 import { WorkflowBlockIcon } from "../WorkflowBlockIcon";
-import type { NavigationNode } from "./types";
 import { ParametersMultiSelect } from "../TaskNode/ParametersMultiSelect";
 import { AppNode } from "..";
 import { getAvailableOutputParameterKeys } from "../../workflowEditorUtils";
 import { useIsFirstBlockInWorkflow } from "../../hooks/useIsFirstNodeInWorkflow";
+import type { CookieNavNode } from "./types";
 
-function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
+function CookieNavNodeComponent({ id, data }: NodeProps<CookieNavNode>) {
   const { updateNodeData } = useReactFlow();
   const { editable } = data;
   const [label, setLabel] = useNodeLabelChangeHandler({
@@ -75,51 +75,6 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
     updateNodeData(id, { [key]: value });
   }
 
-  const CookieInputs = () => {
-    const [cookieKey, setCookieKey] = useState("");
-    const [cookieValue, setCookieValue] = useState("");
-    
-    const addCookie = () => {
-      if (cookieKey && cookieValue) {
-        const updatedCookies = {...inputs.cookies, [cookieKey]: cookieValue};
-        handleChange("cookies", updatedCookies);
-        setCookieKey("");
-        setCookieValue("");
-      }
-    };
-    
-    const deleteCookie = (key: string) => {
-      const updatedCookies = {...inputs.cookies};
-      delete updatedCookies[key];
-      handleChange("cookies", updatedCookies);
-    };
-    
-    return (
-      <div className="cookie-section">
-        <h3>Cookies</h3>
-        {Object.entries(inputs.cookies || {}).map(([key, value]) => (
-          <div key={key} className="cookie-entry">
-            <span>{key}: {value}</span>
-            <button onClick={() => deleteCookie(key)}>Delete</button>
-          </div>
-        ))}
-        <div className="add-cookie">
-          <input 
-            placeholder="Cookie Name" 
-            value={cookieKey} 
-            onChange={(e) => setCookieKey(e.target.value)} 
-          />
-          <input 
-            placeholder="Cookie Value" 
-            value={cookieValue} 
-            onChange={(e) => setCookieValue(e.target.value)} 
-          />
-          <button onClick={addCookie}>Add Cookie</button>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div>
       <Handle
@@ -151,7 +106,9 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
                 titleClassName="text-base"
                 inputClassName="text-base"
               />
-              <span className="text-xs text-slate-400">Navigation Block</span>
+              <span className="text-xs text-slate-400">
+                Cookie Navigation Block
+              </span>
             </div>
           </div>
           <NodeActionMenu
@@ -161,6 +118,29 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
           />
         </header>
         <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <Label className="text-xs text-slate-300">
+                Cookies (JSON format)
+              </Label>
+              <HelpTooltip content="Specify cookies to inject before navigation. Should be an array of objects with name, value, domain, and path properties." />
+            </div>
+            <CodeEditor
+              value={inputs.cookies}
+              onChange={(value) => {
+                handleChange("cookies", value);
+              }}
+              language="json"
+              className="nowheel nopan"
+            />
+            <div className="rounded-md bg-slate-800 p-2">
+              <div className="space-y-1 text-xs text-slate-400">
+                Example:{" "}
+                {`[{"name": "sessionId", "value": "abc123", "domain": "example.com", "path": "/"}]`}
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-2">
             <div className="flex justify-between">
               <div className="flex gap-2">
@@ -221,10 +201,10 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <ParametersMultiSelect
-                    availableOutputParameters={outputParameterKeys}
                     parameters={data.parameterKeys}
-                    onParametersChange={(parameterKeys) => {
-                      updateNodeData(id, { parameterKeys });
+                    availableOutputParameters={outputParameterKeys}
+                    onParametersChange={(values) => {
+                      updateNodeData(id, { parameterKeys: values });
                     }}
                   />
                 </div>
@@ -238,6 +218,19 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
                       handleChange("completeCriterion", value);
                     }}
                     value={inputs.completeCriterion}
+                    className="nopan text-xs"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs text-slate-300">
+                    Terminate if...
+                  </Label>
+                  <WorkflowBlockInputTextarea
+                    nodeId={id}
+                    onChange={(value) => {
+                      handleChange("terminateCriterion", value);
+                    }}
+                    value={inputs.terminateCriterion}
                     className="nopan text-xs"
                   />
                 </div>
@@ -388,9 +381,7 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
                     <Label className="text-xs font-normal text-slate-300">
                       File Suffix
                     </Label>
-                    <HelpTooltip
-                      content={helpTooltips["navigation"]["fileSuffix"]}
-                    />
+                    <HelpTooltip content="Specify a suffix to append to downloaded files" />
                   </div>
                   <WorkflowBlockInput
                     nodeId={id}
@@ -427,10 +418,9 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-        <CookieInputs />
       </div>
     </div>
   );
 }
 
-export { NavigationNode };
+export { CookieNavNodeComponent };

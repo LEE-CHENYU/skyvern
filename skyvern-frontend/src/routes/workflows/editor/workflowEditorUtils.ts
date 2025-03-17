@@ -275,10 +275,11 @@ function convertToNode(
           parameterKeys: block.parameters.map((p) => p.key),
           totpIdentifier: block.totp_identifier ?? null,
           totpVerificationUrl: block.totp_verification_url ?? null,
-          cacheActions: block.cache_actions,
+          cacheActions: block.cache_actions ?? false,
           maxStepsOverride: block.max_steps_per_run ?? null,
           completeCriterion: block.complete_criterion ?? "",
           terminateCriterion: block.terminate_criterion ?? "",
+          cookies: block.cookies ?? {},
         },
       };
     }
@@ -472,6 +473,9 @@ function convertToNode(
       };
     }
   }
+  
+  // Add default case to handle any unmatched block types
+  throw new Error(`Unsupported block type: ${(block as any).block_type}`);
 }
 
 function generateNodeData(blocks: Array<WorkflowBlock>): Array<{
@@ -680,6 +684,8 @@ function createNode(
     draggable: false,
     position: { x: 0, y: 0 },
   };
+  
+  try {
   switch (nodeType) {
     case "task": {
       return {
@@ -879,13 +885,38 @@ function createNode(
         },
       };
     }
-  }
+      default:
+        console.error(`Unsupported node type: ${nodeType}`);
+        // Fallback to a generic node type to prevent complete failure
+      return {
+          ...identifiers,
+          ...common,
+          type: "task" as any, // Use task as fallback
+        data: {
+            ...taskNodeDefaultData,
+            label: `${label} (Fallback)`,
+        },
+      };
+    }
+  } catch (error) {
+    console.error("Error creating node:", error, "for type:", nodeType);
+    // Return fallback node on error
+      return {
+      ...identifiers,
+      ...common,
+      type: "task" as any,
+        data: {
+        ...taskNodeDefaultData,
+        label: `${label} (Error)`,
+        },
+      };
+    }
 }
 
 function JSONParseSafe(json: string): Record<string, unknown> | null {
   try {
     return JSON.parse(json);
-  } catch {
+    } catch {
     return null;
   }
 }
@@ -980,9 +1011,7 @@ function getWorkflowBlock(node: WorkflowBlockNode): BlockYAML {
           string
         > | null,
         url: node.data.url,
-        ...(node.data.maxRetries !== null && {
-          max_retries: node.data.maxRetries,
-        }),
+        max_retries: node.data.maxRetries,
         max_steps_per_run: node.data.maxStepsOverride,
         complete_on_download: node.data.allowDownloads,
         download_suffix: node.data.downloadSuffix,
@@ -992,6 +1021,7 @@ function getWorkflowBlock(node: WorkflowBlockNode): BlockYAML {
         cache_actions: node.data.cacheActions,
         complete_criterion: node.data.completeCriterion,
         terminate_criterion: node.data.terminateCriterion,
+        cookies: node.data.cookies,
       };
     }
     case "extraction": {
@@ -1577,6 +1607,7 @@ function convertParametersToParameterYAML(
 function convertBlocksToBlockYAML(
   blocks: Array<WorkflowBlock>,
 ): Array<BlockYAML> {
+  // Add proper non-null assertion or filtering to ensure no undefined values
   return blocks.map((block) => {
     const base = {
       label: block.label,
@@ -1655,16 +1686,17 @@ function convertBlocksToBlockYAML(
           title: block.title,
           navigation_goal: block.navigation_goal,
           error_code_mapping: block.error_code_mapping,
-          max_retries: block.max_retries,
-          max_steps_per_run: block.max_steps_per_run,
-          complete_on_download: block.complete_on_download,
-          download_suffix: block.download_suffix,
+          max_retries: block.max_retries || null,
+          max_steps_per_run: block.max_steps_per_run || null,
+          complete_on_download: block.complete_on_download || null,
+          download_suffix: block.download_suffix || null,
           parameter_keys: block.parameters.map((p) => p.key),
-          totp_identifier: block.totp_identifier,
-          totp_verification_url: block.totp_verification_url,
-          cache_actions: block.cache_actions,
+          totp_identifier: block.totp_identifier || null,
+          totp_verification_url: block.totp_verification_url || null,
+          cache_actions: block.cache_actions || null,
           complete_criterion: block.complete_criterion,
           terminate_criterion: block.terminate_criterion,
+          cookies: block.cookies || null,
         };
         return blockYaml;
       }
@@ -1816,8 +1848,10 @@ function convertBlocksToBlockYAML(
         };
         return blockYaml;
       }
+      default:
+        throw new Error(`Unsupported block type: ${block.block_type}`);
     }
-  });
+  }).filter((block): block is BlockYAML => block !== undefined);
 }
 
 function convert(workflow: WorkflowApiResponse): WorkflowCreateYAMLRequest {
