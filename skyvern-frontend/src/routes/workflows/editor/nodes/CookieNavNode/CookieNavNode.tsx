@@ -35,6 +35,7 @@ import { AppNode } from "..";
 import { getAvailableOutputParameterKeys } from "../../workflowEditorUtils";
 import { useIsFirstBlockInWorkflow } from "../../hooks/useIsFirstNodeInWorkflow";
 import type { CookieNavNode } from "./types";
+import { Button } from "@/components/ui/button";
 
 function CookieNavNodeComponent({ id, data }: NodeProps<CookieNavNode>) {
   const { updateNodeData } = useReactFlow();
@@ -73,6 +74,23 @@ function CookieNavNodeComponent({ id, data }: NodeProps<CookieNavNode>) {
     }
     setInputs({ ...inputs, [key]: value });
     updateNodeData(id, { [key]: value });
+  }
+
+  function saveCookiesToFile(cookiesJson: string) {
+    try {
+      // Create a hidden link element to trigger download
+      const element = document.createElement("a");
+      const file = new Blob([cookiesJson], { type: "application/json" });
+      element.href = URL.createObjectURL(file);
+      element.download = "temp_cookies.json";
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+
+      console.log("Cookies saved to temp_cookies.json");
+    } catch (e) {
+      console.error("Error saving cookies to file:", e);
+    }
   }
 
   return (
@@ -418,6 +436,14 @@ function CookieNavNodeComponent({ id, data }: NodeProps<CookieNavNode>) {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        <Button
+          onClick={() => saveCookiesToFile(inputs.cookies)}
+          size="sm"
+          variant="outline"
+          className="mt-2"
+        >
+          Save Cookies to File
+        </Button>
       </div>
     </div>
   );

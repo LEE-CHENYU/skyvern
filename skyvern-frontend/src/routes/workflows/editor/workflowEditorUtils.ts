@@ -473,9 +473,11 @@ function convertToNode(
       };
     }
   }
-  
+
   // Add default case to handle any unmatched block types
-  throw new Error(`Unsupported block type: ${(block as any).block_type}`);
+  throw new Error(
+    `Unsupported block type: ${(block as Record<string, string>).block_type}`,
+  );
 }
 
 function generateNodeData(blocks: Array<WorkflowBlock>): Array<{
@@ -684,239 +686,239 @@ function createNode(
     draggable: false,
     position: { x: 0, y: 0 },
   };
-  
+
   try {
-  switch (nodeType) {
-    case "task": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "task",
-        data: {
-          ...taskNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "taskv2": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "taskv2",
-        data: {
-          ...taskv2NodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "validation": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "validation",
-        data: {
-          ...validationNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "action": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "action",
-        data: {
-          ...actionNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "navigation": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "navigation",
-        data: {
-          ...navigationNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "extraction": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "extraction",
-        data: {
-          ...extractionNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "login": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "login",
-        data: {
-          ...loginNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "wait": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "wait",
-        data: {
-          ...waitNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "fileDownload": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "fileDownload",
-        data: {
-          ...fileDownloadNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "loop": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "loop",
-        data: {
-          ...loopNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "codeBlock": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "codeBlock",
-        data: {
-          ...codeBlockNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "download": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "download",
-        data: {
-          ...downloadNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "upload": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "upload",
-        data: {
-          ...uploadNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "sendEmail": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "sendEmail",
-        data: {
-          ...sendEmailNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "textPrompt": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "textPrompt",
-        data: {
-          ...textPromptNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "fileParser": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "fileParser",
-        data: {
-          ...fileParserNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "pdfParser": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "pdfParser",
-        data: {
-          ...pdfParserNodeDefaultData,
-          label,
-        },
-      };
-    }
-    case "url": {
-      return {
-        ...identifiers,
-        ...common,
-        type: "url",
-        data: {
-          ...urlNodeDefaultData,
-          label,
-        },
-      };
-    }
+    switch (nodeType) {
+      case "task": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "task",
+          data: {
+            ...taskNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "taskv2": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "taskv2",
+          data: {
+            ...taskv2NodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "validation": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "validation",
+          data: {
+            ...validationNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "action": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "action",
+          data: {
+            ...actionNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "navigation": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "navigation",
+          data: {
+            ...navigationNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "extraction": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "extraction",
+          data: {
+            ...extractionNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "login": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "login",
+          data: {
+            ...loginNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "wait": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "wait",
+          data: {
+            ...waitNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "fileDownload": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "fileDownload",
+          data: {
+            ...fileDownloadNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "loop": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "loop",
+          data: {
+            ...loopNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "codeBlock": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "codeBlock",
+          data: {
+            ...codeBlockNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "download": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "download",
+          data: {
+            ...downloadNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "upload": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "upload",
+          data: {
+            ...uploadNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "sendEmail": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "sendEmail",
+          data: {
+            ...sendEmailNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "textPrompt": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "textPrompt",
+          data: {
+            ...textPromptNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "fileParser": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "fileParser",
+          data: {
+            ...fileParserNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "pdfParser": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "pdfParser",
+          data: {
+            ...pdfParserNodeDefaultData,
+            label,
+          },
+        };
+      }
+      case "url": {
+        return {
+          ...identifiers,
+          ...common,
+          type: "url",
+          data: {
+            ...urlNodeDefaultData,
+            label,
+          },
+        };
+      }
       default:
         console.error(`Unsupported node type: ${nodeType}`);
         // Fallback to a generic node type to prevent complete failure
-      return {
+        return {
           ...identifiers,
           ...common,
-          type: "task" as any, // Use task as fallback
-        data: {
+          type: "task" as unknown, // Use task as fallback
+          data: {
             ...taskNodeDefaultData,
             label: `${label} (Fallback)`,
-        },
-      };
+          },
+        };
     }
   } catch (error) {
     console.error("Error creating node:", error, "for type:", nodeType);
     // Return fallback node on error
-      return {
+    return {
       ...identifiers,
       ...common,
-      type: "task" as any,
-        data: {
+      type: "task" as unknown,
+      data: {
         ...taskNodeDefaultData,
         label: `${label} (Error)`,
-        },
-      };
-    }
+      },
+    };
+  }
 }
 
 function JSONParseSafe(json: string): Record<string, unknown> | null {
   try {
     return JSON.parse(json);
-    } catch {
+  } catch {
     return null;
   }
 }
@@ -1608,250 +1610,252 @@ function convertBlocksToBlockYAML(
   blocks: Array<WorkflowBlock>,
 ): Array<BlockYAML> {
   // Add proper non-null assertion or filtering to ensure no undefined values
-  return blocks.map((block) => {
-    const base = {
-      label: block.label,
-      continue_on_failure: block.continue_on_failure,
-    };
-    switch (block.block_type) {
-      case "task": {
-        const blockYaml: TaskBlockYAML = {
-          ...base,
-          block_type: "task",
-          title: block.title,
-          url: block.url,
-          navigation_goal: block.navigation_goal,
-          data_extraction_goal: block.data_extraction_goal,
-          complete_criterion: block.complete_criterion,
-          terminate_criterion: block.terminate_criterion,
-          data_schema: block.data_schema,
-          error_code_mapping: block.error_code_mapping,
-          max_retries: block.max_retries,
-          max_steps_per_run: block.max_steps_per_run,
-          complete_on_download: block.complete_on_download,
-          download_suffix: block.download_suffix,
-          parameter_keys: block.parameters.map((p) => p.key),
-          totp_identifier: block.totp_identifier,
-          totp_verification_url: block.totp_verification_url,
-          cache_actions: block.cache_actions,
-        };
-        return blockYaml;
+  return blocks
+    .map((block) => {
+      const base = {
+        label: block.label,
+        continue_on_failure: block.continue_on_failure,
+      };
+      switch (block.block_type) {
+        case "task": {
+          const blockYaml: TaskBlockYAML = {
+            ...base,
+            block_type: "task",
+            title: block.title,
+            url: block.url,
+            navigation_goal: block.navigation_goal,
+            data_extraction_goal: block.data_extraction_goal,
+            complete_criterion: block.complete_criterion,
+            terminate_criterion: block.terminate_criterion,
+            data_schema: block.data_schema,
+            error_code_mapping: block.error_code_mapping,
+            max_retries: block.max_retries,
+            max_steps_per_run: block.max_steps_per_run,
+            complete_on_download: block.complete_on_download,
+            download_suffix: block.download_suffix,
+            parameter_keys: block.parameters.map((p) => p.key),
+            totp_identifier: block.totp_identifier,
+            totp_verification_url: block.totp_verification_url,
+            cache_actions: block.cache_actions,
+          };
+          return blockYaml;
+        }
+        case "task_v2": {
+          const blockYaml: Taskv2BlockYAML = {
+            ...base,
+            block_type: "task_v2",
+            prompt: block.prompt,
+            url: block.url,
+            max_steps: block.max_steps,
+            totp_identifier: block.totp_identifier,
+            totp_verification_url: block.totp_verification_url,
+          };
+          return blockYaml;
+        }
+        case "validation": {
+          const blockYaml: ValidationBlockYAML = {
+            ...base,
+            block_type: "validation",
+            complete_criterion: block.complete_criterion,
+            terminate_criterion: block.terminate_criterion,
+            error_code_mapping: block.error_code_mapping,
+            parameter_keys: block.parameters.map((p) => p.key),
+          };
+          return blockYaml;
+        }
+        case "action": {
+          const blockYaml: ActionBlockYAML = {
+            ...base,
+            block_type: "action",
+            url: block.url,
+            title: block.title,
+            navigation_goal: block.navigation_goal,
+            error_code_mapping: block.error_code_mapping,
+            max_retries: block.max_retries,
+            complete_on_download: block.complete_on_download,
+            download_suffix: block.download_suffix,
+            parameter_keys: block.parameters.map((p) => p.key),
+            totp_identifier: block.totp_identifier,
+            totp_verification_url: block.totp_verification_url,
+            cache_actions: block.cache_actions,
+          };
+          return blockYaml;
+        }
+        case "navigation": {
+          const blockYaml: NavigationBlockYAML = {
+            ...base,
+            block_type: "navigation",
+            url: block.url,
+            title: block.title,
+            navigation_goal: block.navigation_goal,
+            error_code_mapping: block.error_code_mapping,
+            max_retries: block.max_retries || null,
+            max_steps_per_run: block.max_steps_per_run || null,
+            complete_on_download: block.complete_on_download || null,
+            download_suffix: block.download_suffix || null,
+            parameter_keys: block.parameters.map((p) => p.key),
+            totp_identifier: block.totp_identifier || null,
+            totp_verification_url: block.totp_verification_url || null,
+            cache_actions: block.cache_actions || null,
+            complete_criterion: block.complete_criterion,
+            terminate_criterion: block.terminate_criterion,
+            cookies: block.cookies || null,
+          };
+          return blockYaml;
+        }
+        case "extraction": {
+          const blockYaml: ExtractionBlockYAML = {
+            ...base,
+            block_type: "extraction",
+            url: block.url,
+            title: block.title,
+            data_extraction_goal: block.data_extraction_goal,
+            data_schema: block.data_schema,
+            max_retries: block.max_retries,
+            max_steps_per_run: block.max_steps_per_run,
+            parameter_keys: block.parameters.map((p) => p.key),
+            cache_actions: block.cache_actions,
+          };
+          return blockYaml;
+        }
+        case "login": {
+          const blockYaml: LoginBlockYAML = {
+            ...base,
+            block_type: "login",
+            url: block.url,
+            title: block.title,
+            navigation_goal: block.navigation_goal,
+            error_code_mapping: block.error_code_mapping,
+            max_retries: block.max_retries,
+            max_steps_per_run: block.max_steps_per_run,
+            parameter_keys: block.parameters.map((p) => p.key),
+            totp_identifier: block.totp_identifier,
+            totp_verification_url: block.totp_verification_url,
+            cache_actions: block.cache_actions,
+            complete_criterion: block.complete_criterion,
+            terminate_criterion: block.terminate_criterion,
+          };
+          return blockYaml;
+        }
+        case "wait": {
+          const blockYaml: WaitBlockYAML = {
+            ...base,
+            block_type: "wait",
+            wait_sec: block.wait_sec,
+          };
+          return blockYaml;
+        }
+        case "file_download": {
+          const blockYaml: FileDownloadBlockYAML = {
+            ...base,
+            block_type: "file_download",
+            url: block.url,
+            title: block.title,
+            navigation_goal: block.navigation_goal,
+            error_code_mapping: block.error_code_mapping,
+            max_retries: block.max_retries,
+            max_steps_per_run: block.max_steps_per_run,
+            download_suffix: block.download_suffix,
+            parameter_keys: block.parameters.map((p) => p.key),
+            totp_identifier: block.totp_identifier,
+            totp_verification_url: block.totp_verification_url,
+            cache_actions: block.cache_actions,
+          };
+          return blockYaml;
+        }
+        case "for_loop": {
+          const blockYaml: ForLoopBlockYAML = {
+            ...base,
+            block_type: "for_loop",
+            loop_over_parameter_key: block.loop_over?.key ?? "",
+            loop_blocks: convertBlocksToBlockYAML(block.loop_blocks),
+            loop_variable_reference: block.loop_variable_reference,
+            complete_if_empty: block.complete_if_empty,
+          };
+          return blockYaml;
+        }
+        case "code": {
+          const blockYaml: CodeBlockYAML = {
+            ...base,
+            block_type: "code",
+            code: block.code,
+          };
+          return blockYaml;
+        }
+        case "text_prompt": {
+          const blockYaml: TextPromptBlockYAML = {
+            ...base,
+            block_type: "text_prompt",
+            llm_key: block.llm_key,
+            prompt: block.prompt,
+            json_schema: block.json_schema,
+            parameter_keys: block.parameters.map((p) => p.key),
+          };
+          return blockYaml;
+        }
+        case "download_to_s3": {
+          const blockYaml: DownloadToS3BlockYAML = {
+            ...base,
+            block_type: "download_to_s3",
+            url: block.url,
+          };
+          return blockYaml;
+        }
+        case "upload_to_s3": {
+          const blockYaml: UploadToS3BlockYAML = {
+            ...base,
+            block_type: "upload_to_s3",
+            path: block.path,
+          };
+          return blockYaml;
+        }
+        case "file_url_parser": {
+          const blockYaml: FileUrlParserBlockYAML = {
+            ...base,
+            block_type: "file_url_parser",
+            file_url: block.file_url,
+            file_type: block.file_type,
+          };
+          return blockYaml;
+        }
+        case "pdf_parser": {
+          const blockYaml: PDFParserBlockYAML = {
+            ...base,
+            block_type: "pdf_parser",
+            file_url: block.file_url,
+            json_schema: block.json_schema,
+          };
+          return blockYaml;
+        }
+        case "send_email": {
+          const blockYaml: SendEmailBlockYAML = {
+            ...base,
+            block_type: "send_email",
+            smtp_host_secret_parameter_key: block.smtp_host?.key,
+            smtp_port_secret_parameter_key: block.smtp_port?.key,
+            smtp_username_secret_parameter_key: block.smtp_username?.key,
+            smtp_password_secret_parameter_key: block.smtp_password?.key,
+            sender: block.sender,
+            recipients: block.recipients,
+            subject: block.subject,
+            body: block.body,
+            file_attachments: block.file_attachments,
+          };
+          return blockYaml;
+        }
+        case "goto_url": {
+          const blockYaml: URLBlockYAML = {
+            ...base,
+            block_type: "goto_url",
+            url: block.url,
+          };
+          return blockYaml;
+        }
+        default:
+          throw new Error(`Unsupported block type: ${block.block_type}`);
       }
-      case "task_v2": {
-        const blockYaml: Taskv2BlockYAML = {
-          ...base,
-          block_type: "task_v2",
-          prompt: block.prompt,
-          url: block.url,
-          max_steps: block.max_steps,
-          totp_identifier: block.totp_identifier,
-          totp_verification_url: block.totp_verification_url,
-        };
-        return blockYaml;
-      }
-      case "validation": {
-        const blockYaml: ValidationBlockYAML = {
-          ...base,
-          block_type: "validation",
-          complete_criterion: block.complete_criterion,
-          terminate_criterion: block.terminate_criterion,
-          error_code_mapping: block.error_code_mapping,
-          parameter_keys: block.parameters.map((p) => p.key),
-        };
-        return blockYaml;
-      }
-      case "action": {
-        const blockYaml: ActionBlockYAML = {
-          ...base,
-          block_type: "action",
-          url: block.url,
-          title: block.title,
-          navigation_goal: block.navigation_goal,
-          error_code_mapping: block.error_code_mapping,
-          max_retries: block.max_retries,
-          complete_on_download: block.complete_on_download,
-          download_suffix: block.download_suffix,
-          parameter_keys: block.parameters.map((p) => p.key),
-          totp_identifier: block.totp_identifier,
-          totp_verification_url: block.totp_verification_url,
-          cache_actions: block.cache_actions,
-        };
-        return blockYaml;
-      }
-      case "navigation": {
-        const blockYaml: NavigationBlockYAML = {
-          ...base,
-          block_type: "navigation",
-          url: block.url,
-          title: block.title,
-          navigation_goal: block.navigation_goal,
-          error_code_mapping: block.error_code_mapping,
-          max_retries: block.max_retries || null,
-          max_steps_per_run: block.max_steps_per_run || null,
-          complete_on_download: block.complete_on_download || null,
-          download_suffix: block.download_suffix || null,
-          parameter_keys: block.parameters.map((p) => p.key),
-          totp_identifier: block.totp_identifier || null,
-          totp_verification_url: block.totp_verification_url || null,
-          cache_actions: block.cache_actions || null,
-          complete_criterion: block.complete_criterion,
-          terminate_criterion: block.terminate_criterion,
-          cookies: block.cookies || null,
-        };
-        return blockYaml;
-      }
-      case "extraction": {
-        const blockYaml: ExtractionBlockYAML = {
-          ...base,
-          block_type: "extraction",
-          url: block.url,
-          title: block.title,
-          data_extraction_goal: block.data_extraction_goal,
-          data_schema: block.data_schema,
-          max_retries: block.max_retries,
-          max_steps_per_run: block.max_steps_per_run,
-          parameter_keys: block.parameters.map((p) => p.key),
-          cache_actions: block.cache_actions,
-        };
-        return blockYaml;
-      }
-      case "login": {
-        const blockYaml: LoginBlockYAML = {
-          ...base,
-          block_type: "login",
-          url: block.url,
-          title: block.title,
-          navigation_goal: block.navigation_goal,
-          error_code_mapping: block.error_code_mapping,
-          max_retries: block.max_retries,
-          max_steps_per_run: block.max_steps_per_run,
-          parameter_keys: block.parameters.map((p) => p.key),
-          totp_identifier: block.totp_identifier,
-          totp_verification_url: block.totp_verification_url,
-          cache_actions: block.cache_actions,
-          complete_criterion: block.complete_criterion,
-          terminate_criterion: block.terminate_criterion,
-        };
-        return blockYaml;
-      }
-      case "wait": {
-        const blockYaml: WaitBlockYAML = {
-          ...base,
-          block_type: "wait",
-          wait_sec: block.wait_sec,
-        };
-        return blockYaml;
-      }
-      case "file_download": {
-        const blockYaml: FileDownloadBlockYAML = {
-          ...base,
-          block_type: "file_download",
-          url: block.url,
-          title: block.title,
-          navigation_goal: block.navigation_goal,
-          error_code_mapping: block.error_code_mapping,
-          max_retries: block.max_retries,
-          max_steps_per_run: block.max_steps_per_run,
-          download_suffix: block.download_suffix,
-          parameter_keys: block.parameters.map((p) => p.key),
-          totp_identifier: block.totp_identifier,
-          totp_verification_url: block.totp_verification_url,
-          cache_actions: block.cache_actions,
-        };
-        return blockYaml;
-      }
-      case "for_loop": {
-        const blockYaml: ForLoopBlockYAML = {
-          ...base,
-          block_type: "for_loop",
-          loop_over_parameter_key: block.loop_over?.key ?? "",
-          loop_blocks: convertBlocksToBlockYAML(block.loop_blocks),
-          loop_variable_reference: block.loop_variable_reference,
-          complete_if_empty: block.complete_if_empty,
-        };
-        return blockYaml;
-      }
-      case "code": {
-        const blockYaml: CodeBlockYAML = {
-          ...base,
-          block_type: "code",
-          code: block.code,
-        };
-        return blockYaml;
-      }
-      case "text_prompt": {
-        const blockYaml: TextPromptBlockYAML = {
-          ...base,
-          block_type: "text_prompt",
-          llm_key: block.llm_key,
-          prompt: block.prompt,
-          json_schema: block.json_schema,
-          parameter_keys: block.parameters.map((p) => p.key),
-        };
-        return blockYaml;
-      }
-      case "download_to_s3": {
-        const blockYaml: DownloadToS3BlockYAML = {
-          ...base,
-          block_type: "download_to_s3",
-          url: block.url,
-        };
-        return blockYaml;
-      }
-      case "upload_to_s3": {
-        const blockYaml: UploadToS3BlockYAML = {
-          ...base,
-          block_type: "upload_to_s3",
-          path: block.path,
-        };
-        return blockYaml;
-      }
-      case "file_url_parser": {
-        const blockYaml: FileUrlParserBlockYAML = {
-          ...base,
-          block_type: "file_url_parser",
-          file_url: block.file_url,
-          file_type: block.file_type,
-        };
-        return blockYaml;
-      }
-      case "pdf_parser": {
-        const blockYaml: PDFParserBlockYAML = {
-          ...base,
-          block_type: "pdf_parser",
-          file_url: block.file_url,
-          json_schema: block.json_schema,
-        };
-        return blockYaml;
-      }
-      case "send_email": {
-        const blockYaml: SendEmailBlockYAML = {
-          ...base,
-          block_type: "send_email",
-          smtp_host_secret_parameter_key: block.smtp_host?.key,
-          smtp_port_secret_parameter_key: block.smtp_port?.key,
-          smtp_username_secret_parameter_key: block.smtp_username?.key,
-          smtp_password_secret_parameter_key: block.smtp_password?.key,
-          sender: block.sender,
-          recipients: block.recipients,
-          subject: block.subject,
-          body: block.body,
-          file_attachments: block.file_attachments,
-        };
-        return blockYaml;
-      }
-      case "goto_url": {
-        const blockYaml: URLBlockYAML = {
-          ...base,
-          block_type: "goto_url",
-          url: block.url,
-        };
-        return blockYaml;
-      }
-      default:
-        throw new Error(`Unsupported block type: ${block.block_type}`);
-    }
-  }).filter((block): block is BlockYAML => block !== undefined);
+    })
+    .filter((block): block is BlockYAML => block !== undefined);
 }
 
 function convert(workflow: WorkflowApiResponse): WorkflowCreateYAMLRequest {

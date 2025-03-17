@@ -35,6 +35,7 @@ import { ParametersMultiSelect } from "../TaskNode/ParametersMultiSelect";
 import { AppNode } from "..";
 import { getAvailableOutputParameterKeys } from "../../workflowEditorUtils";
 import { useIsFirstBlockInWorkflow } from "../../hooks/useIsFirstNodeInWorkflow";
+import { CookieSection } from "./CookieSection";
 
 function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
   const { updateNodeData } = useReactFlow();
@@ -74,51 +75,6 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
     setInputs({ ...inputs, [key]: value });
     updateNodeData(id, { [key]: value });
   }
-
-  const CookieInputs = () => {
-    const [cookieKey, setCookieKey] = useState("");
-    const [cookieValue, setCookieValue] = useState("");
-    
-    const addCookie = () => {
-      if (cookieKey && cookieValue) {
-        const updatedCookies = {...inputs.cookies, [cookieKey]: cookieValue};
-        handleChange("cookies", updatedCookies);
-        setCookieKey("");
-        setCookieValue("");
-      }
-    };
-    
-    const deleteCookie = (key: string) => {
-      const updatedCookies = {...inputs.cookies};
-      delete updatedCookies[key];
-      handleChange("cookies", updatedCookies);
-    };
-    
-    return (
-      <div className="cookie-section">
-        <h3>Cookies</h3>
-        {Object.entries(inputs.cookies || {}).map(([key, value]) => (
-          <div key={key} className="cookie-entry">
-            <span>{key}: {value}</span>
-            <button onClick={() => deleteCookie(key)}>Delete</button>
-          </div>
-        ))}
-        <div className="add-cookie">
-          <input 
-            placeholder="Cookie Name" 
-            value={cookieKey} 
-            onChange={(e) => setCookieKey(e.target.value)} 
-          />
-          <input 
-            placeholder="Cookie Value" 
-            value={cookieValue} 
-            onChange={(e) => setCookieValue(e.target.value)} 
-          />
-          <button onClick={addCookie}>Add Cookie</button>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div>
@@ -423,11 +379,16 @@ function NavigationNode({ id, data }: NodeProps<NavigationNode>) {
                     className="nopan text-xs"
                   />
                 </div>
+                <CookieSection
+                  cookies={data.cookies || {}}
+                  onChange={(cookies) => {
+                    handleChange("cookies", cookies);
+                  }}
+                />
               </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-        <CookieInputs />
       </div>
     </div>
   );
