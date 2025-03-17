@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import json
 
 import structlog
 from playwright.async_api import async_playwright
@@ -44,6 +45,26 @@ class BrowserManager:
             workflow_run_id=workflow_run_id,
             organization_id=organization_id,
         )
+        
+        # Once the browser is created, load cookies from file
+        try:
+            cookies_file = "temp_cookies.json"
+            if os.path.exists(cookies_file):
+                LOG.info(f"Loading cookies from file: {cookies_file}")
+                with open(cookies_file, 'r') as f:
+                    cookies_json = json.load(f)
+                
+                if cookies_json and len(cookies_json) > 0:
+                    await browser_context.add_cookies(cookies_json)
+                    
+                    # Log the loaded cookies
+                    current_cookies = await browser_context.cookies()
+                    LOG.info(f"Cookies loaded from file: {json.dumps(current_cookies, indent=2)}")
+            else:
+                LOG.info(f"Cookies file not found: {cookies_file}")
+        except Exception as e:
+            LOG.error(f"Error loading cookies from file: {str(e)}")
+        
         return BrowserState(
             pw=pw,
             browser_context=browser_context,
@@ -100,6 +121,20 @@ class BrowserManager:
                     LOG.warning("Organization ID is not set for task", task_id=task.task_id)
                 page = await browser_state.get_working_page()
                 if page:
+                    if hasattr(task, 'navigation_payload') and task.navigation_payload:
+                        cookies_str = getattr(task.navigation_payload, 'cookies', None)
+                        if cookies_str:
+                            try:
+                                cookies_json = json.loads(cookies_str)
+                                if cookies_json and len(cookies_json) > 0:
+                                    # Add cookies to browser context
+                                    await browser_state.browser_context.add_cookies(cookies_json)
+                                    
+                                    # Print the cookies to check if they're loaded
+                                    current_cookies = await browser_state.browser_context.cookies()
+                                    LOG.info(f"Cookies loaded before navigation: {json.dumps(current_cookies, indent=2)}")
+                            except Exception as e:
+                                LOG.error(f"Error injecting or printing cookies: {str(e)}")
                     await browser_state.navigate_to_url(page=page, url=task.url)
                 else:
                     LOG.warning("Browser state has no page", workflow_run_id=task.workflow_run_id)
@@ -122,6 +157,11 @@ class BrowserManager:
         await browser_state.get_or_create_page(
             url=task.url, proxy_location=task.proxy_location, task_id=task.task_id, organization_id=task.organization_id
         )
+
+        LOG.info("COOKIE DEBUG: Checking for cookies before navigation")
+        if hasattr(task, 'navigation_payload'):
+            LOG.info(f"COOKIE DEBUG: Navigation payload exists: {task.navigation_payload}")
+
         return browser_state
 
     async def get_or_create_for_workflow_run(

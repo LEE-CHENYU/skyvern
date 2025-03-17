@@ -213,6 +213,18 @@ class ForgeAgent:
             order=step.order,
             retry_index=step.retry_index,
         )
+
+        # Add around line 135, after navigation_payload is created
+        LOG.error("==== COOKIE DEBUG: Navigation payload content ====")
+        LOG.error(f"Navigation payload: {navigation_payload}")
+        if 'cookies' in navigation_payload:
+            LOG.error(f"Cookie string in payload: {navigation_payload['cookies']}")
+            try:
+                cookie_json = json.loads(navigation_payload['cookies'])
+                LOG.error(f"Parsed cookies: {json.dumps(cookie_json, indent=2)}")
+            except Exception as e:
+                LOG.error(f"Error parsing cookies: {str(e)}")
+
         return task, step
 
     async def create_task(self, task_request: TaskRequest, organization_id: str | None = None) -> Task:

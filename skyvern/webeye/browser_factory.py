@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Awaitable, Callable, Protocol
+import json
 
 import aiofiles
 import structlog
@@ -32,6 +33,15 @@ LOG = structlog.get_logger()
 
 
 BrowserCleanupFunc = Callable[[], None] | None
+
+
+class BrowserConfig:
+    # Add cookies_file to the configuration
+    def __init__(
+        self,
+        cookies_file: str = "temp_cookies.json",
+    ):
+        self.cookies_file = cookies_file
 
 
 def set_browser_console_log(browser_context: BrowserContext, browser_artifacts: BrowserArtifacts) -> None:
@@ -322,7 +332,30 @@ async def _create_headless_chromium(
     )
 
     browser_artifacts = BrowserContextFactory.build_browser_artifacts(har_path=browser_args["record_har_path"])
+    
+    # Check for cookies file and load cookies if present
+    cookies_file = kwargs.get("cookies_file", "temp_cookies.json")
+    
     browser_context = await playwright.chromium.launch_persistent_context(**browser_args)
+    
+    # Add cookies from file if it exists
+    try:
+        if os.path.exists(cookies_file):
+            LOG.info(f"Loading cookies from file: {cookies_file}")
+            with open(cookies_file, 'r') as f:
+                cookies_json = json.load(f)
+            
+            if cookies_json and len(cookies_json) > 0:
+                await browser_context.add_cookies(cookies_json)
+                
+                # Log the loaded cookies
+                current_cookies = await browser_context.cookies()
+                LOG.info(f"Cookies loaded from file: {json.dumps(current_cookies, indent=2)}")
+        else:
+            LOG.info(f"Cookies file not found: {cookies_file}")
+    except Exception as e:
+        LOG.error(f"Error loading cookies from file: {str(e)}")
+    
     return browser_context, browser_artifacts, None
 
 
@@ -422,6 +455,20 @@ class BrowserState:
                 await self.navigate_to_url(page=page, url=url)
 
     async def navigate_to_url(self, page: Page, url: str, retry_times: int = NAVIGATION_MAX_RETRY_TIME) -> None:
+        # ADDED: Unconditional cookie dump before navigation
+        try:
+            LOG.error("==== COOKIE DEBUG: Starting navigation ====")  # Using ERROR to ensure visibility
+            cookies = await self.browser_context.cookies()
+            LOG.error(f"==== COOKIE DEBUG: Current cookies: {json.dumps(cookies, indent=2)}")
+            LOG.error(f"==== COOKIE DEBUG: Cookie count: {len(cookies)}")
+            
+            # Extra details about each cookie
+            for i, cookie in enumerate(cookies):
+                LOG.error(f"Cookie #{i+1}: {cookie.get('name')}={cookie.get('value')} (domain={cookie.get('domain')})")
+        except Exception as e:
+            LOG.error(f"==== COOKIE DEBUG: Error printing cookies: {str(e)}")
+        
+        # Original navigation code follows
         navigation_error: Exception = FailedToNavigateToUrl(url=url, error_message="")
         for retry_time in range(retry_times):
             LOG.info(f"Trying to navigate to {url} and waiting for 5 seconds.", url=url, retry_time=retry_time)

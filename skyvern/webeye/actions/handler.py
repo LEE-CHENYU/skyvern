@@ -1,6 +1,7 @@
 import asyncio
 import copy
 import json
+import logging
 import os
 import urllib.parse
 import uuid
@@ -94,7 +95,7 @@ from skyvern.webeye.scraper.scraper import (
 from skyvern.webeye.utils.dom import DomUtil, InteractiveElement, SkyvernElement
 from skyvern.webeye.utils.page import SkyvernFrame
 
-LOG = structlog.get_logger()
+LOG = logging.getLogger(__name__)
 COMMON_INPUT_TAGS = {"input", "textarea", "select"}
 
 
