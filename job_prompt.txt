@@ -1,0 +1,109 @@
+Achieve the following mini goal and once it's achieved, complete: Fill out the job application form by entering the user's name, email, phone number, attaching the resume, and generating a cover letter. Complete the public burden questions and prepare the form for submission.
+
+This mini goal is part of the big goal the user wants to achieve and use the big goal as context to achieve the mini goal: Go to https://servicetitan.wd1.myworkdayjobs.com/ServiceTitan/job/Glendale-California/Business-Ops—Strategy-Specialist–Fintech—Business-Development_JR110303, fill out the job application form and apply to the job. Fill out any public burden (EEO) questions if they appear in the form. Your goal is complete when the page says you’ve successfully applied to the job. Terminate if you are unable to apply successfully.
+
+{
+  "user_information": {
+    "name": "Cheney Li",
+    "email": "fretin13@gmail.com",
+    "phone": "9295388280",
+    "resume_url": "https://storage.googleapis.com/aisuite-dev/李宸宇中文简历.docx",
+    "cover_letter": "Generate a compelling cover letter for me"
+  },
+  "candidate_profile": {
+    "address": "888 Main Street, 10044, New York, NY",
+    "linkedin": "linkedin.com/in/cheney-li-50a81b156/"
+  },
+  "education": [
+    {
+      "start_date": "2017-09",
+      "end_date": "2021-06",
+      "institution": "Shanghai Jiao Tong University, Shanghai",
+      "degree": "Bachelor of Arts in Finance",
+      "gpa": "3.7"
+    },
+    {
+      "start_date": "2021-09",
+      "end_date": "2023-02",
+      "institution": "Columbia University, New York",
+      "degree": "Master of Science in General"
+    }
+  ],
+  "work_experience": [
+    {
+      "start_date": "2023-05",
+      "end_date": "Present",
+      "company": "VCV Digital",
+      "position": "Investment Analyst",
+      "responsibilities": [
+        "Conducted in-depth competitor analysis and market research to inform product development and go-to-market strategies.",
+        "Built a comprehensive 80,000-contact database of AI startups, fostering relationships with venture capital firms and industry leaders.",
+        "Designed and implemented a Python framework for benchmarking GPU/ASIC inference performance, providing actionable insights into pricing strategy optimization.",
+        "Performed quantitative assessments of system throughput and latency across hardware configurations, leveraging open-source models.",
+        "Coordinated A/B testing and targeted marketing campaigns to identify high-value segments and assess client acquisition strategies."
+      ]
+    },
+    {
+      "start_date": "2021-10",
+      "end_date": "2021-11",
+      "company": "Guosheng Securities Co., Ltd.",
+      "position": "Equity Analyst Intern",
+      "responsibilities": [
+        "Conducted comprehensive fundamental analysis on Hisense Visual Technology Co., Ltd. for Q3 2021 using Wind data.",
+        "Managed and updated the team’s database of home appliance industry data using Python.",
+        "Synthesized and presented analysis findings for supervisor’s roadshow presentations."
+      ]
+    },
+    {
+      "start_date": "2020-11",
+      "end_date": "2021-02",
+      "company": "Nanjing Securities Co. Ltd.",
+      "position": "Investment Banking Analyst Intern",
+      "responsibilities": [
+        "Participated in a potential RMB 1 billion IPO for a Pharma Company, contributing to the project’s strategic planning.",
+        "Drafted portions (~30 pages) of the Prospectus, including comprehensive industry overview and growth opportunities.",
+        "Conducted comprehensive financial analysis of comparable Pharma firms, benchmarking critical metrics (revenue, P/E ratios, EBITDA).",
+        "Supported commercial and operational due diligence by verifying purchase records, performing inventory checks, and querying related parties."
+      ]
+    },
+    {
+      "start_date": "2025-01",
+      "end_date": "2020-01",
+      "company": "KPMG",
+      "position": "Audit Intern",
+      "responsibilities": [
+        "Provided public audit services and participated in compliance projects for financial service clients seeking IPO listings.",
+        "Tested accuracy, materiality, and existence of financial data for retrospective fiscal years.",
+        "Participated in an annual audit project, reviewing organizational flow charts and internal controls.",
+        "Verified accounting records for correct period alignment by performing a cut-off test."
+      ]
+    }
+  ],
+  "skills": [
+    "Equity & Fixed Income Analysis (Bloomberg)",
+    "PowerPoint",
+    "Excel",
+    "R",
+    "Python",
+    "Photoshop",
+    "Japanese (N1)",
+    "English (Proficient, IELTS overall 7.5, GRE 330)",
+    "Quantitative Analysis",
+    "Data Analysis",
+    "Data Visualization",
+    "Data Science",
+    "SQL",
+    "GCP"
+  ],
+  "eeo_responses": {
+    "authorized_to_work_in_us": "Yes",
+    "disability": "No",
+    "gender": "Male",
+    "future_visa_sponsorship": "Yes",
+    "lgbtq_plus": "No",
+    "veteran": "No",
+    "race": "Asian",
+    "hispanic_or_latino": "No",
+    "sexual_orientation": "Heterosexual"
+  }
+}
